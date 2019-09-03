@@ -181,3 +181,52 @@ class Solution(object):
                 c[j] = t[i-2][j-1] + t[i-2][j]
             t.append(c)
         return t
+    @classmethod
+    def maxProfit_1(cls,prices):
+        """
+        超出了运行时间
+        :param prices:
+        :return:
+        """
+        max_profit = 0
+        for i in range(0,len(prices)-1,1):
+            pin = prices[i]
+            for j in range(i,len(prices),1):
+                if (prices[j]-pin) > max_profit:
+                    max_profit = prices[j] - pin
+        return max_profit
+
+    @classmethod
+    def maxProfit_2(cls,prices):
+        """
+        运行时间O(n)
+        给定一个数组，它的第 i 个元素是一支给定股票第 i 天的价格。
+        如果你最多只允许完成一笔交易（即买入和卖出一支股票），设计一个算法来计算你所能获取的最大利润。
+        注意你不能在买入股票前卖出股票。
+        :param prices:
+        :return:
+        """
+        max_profit = 0
+        if len(prices)<2:return max_profit
+        l = len(prices)
+        i = 0
+        j = 1
+        while i<l and j <l:
+            if prices[i] < prices[j]:
+                max_profit = max(prices[j]-prices[i],max_profit)
+                j += 1
+            else:
+                i = j
+                j = i+1
+        return max_profit
+
+    @classmethod
+    def maxProfit_3(cls,prices):
+        """
+        给定一个数组，它的第 i 个元素是一支给定股票第 i 天的价格。
+        设计一个算法来计算你所能获取的最大利润。你可以尽可能地完成更多的交易（多次买卖一支股票）。
+        注意：你不能同时参与多笔交易（你必须在再次购买前出售掉之前的股票）。
+        :param prices:
+        :return:
+        """
+        pass
