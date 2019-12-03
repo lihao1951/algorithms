@@ -10,7 +10,7 @@
 class Solution(object):
 
     @classmethod
-    def twoSum(cls,nums,target):
+    def two_sum(cls,nums,target):
         """
         给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的那两个整数，
         并返回他们的数组下标
@@ -29,7 +29,7 @@ class Solution(object):
         return []
 
     @classmethod
-    def removeDuplicates(cls,nums):
+    def remove_duplicates(cls,nums):
         """
         给定一个排序数组，你需要在原地删除重复出现的元素，
         使得每个元素只出现一次，返回移除后数组的新长度。
@@ -50,7 +50,7 @@ class Solution(object):
         return length
 
     @classmethod
-    def removeElement(cls,nums,val):
+    def remove_element(cls,nums,val):
         """
         给定一个数组 nums 和一个值 val，你需要原地移除
         所有数值等于 val 的元素，返回移除后数组的新长度。
@@ -67,7 +67,7 @@ class Solution(object):
         return len(nums)
 
     @classmethod
-    def searchInsert(cls,nums,target):
+    def search_insert(cls,nums,target):
         """
         给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。
         如果目标值不存在于数组中，返回它将会被按顺序插入的位置。
@@ -100,7 +100,7 @@ class Solution(object):
         return left
 
     @classmethod
-    def maxSubArrayForce(cls,nums):
+    def max_sub_array_force(cls,nums):
         """
         求最大子序列
         TODO : 未完待写
@@ -120,7 +120,7 @@ class Solution(object):
         return maxSum
 
     @classmethod
-    def plusOne(cls,digits):
+    def plus_one(cls,digits):
         """
         对一个数组加1
         :param digits:
@@ -181,8 +181,9 @@ class Solution(object):
                 c[j] = t[i-2][j-1] + t[i-2][j]
             t.append(c)
         return t
+
     @classmethod
-    def maxProfit_1(cls,prices):
+    def max_profit_1(cls,prices):
         """
         超出了运行时间
         :param prices:
@@ -197,7 +198,7 @@ class Solution(object):
         return max_profit
 
     @classmethod
-    def maxProfit_2(cls,prices):
+    def max_profit_2(cls,prices):
         """
         运行时间O(n)
         给定一个数组，它的第 i 个元素是一支给定股票第 i 天的价格。
@@ -221,12 +222,197 @@ class Solution(object):
         return max_profit
 
     @classmethod
-    def maxProfit_3(cls,prices):
+    def max_profit_3(cls,prices):
         """
         给定一个数组，它的第 i 个元素是一支给定股票第 i 天的价格。
         设计一个算法来计算你所能获取的最大利润。你可以尽可能地完成更多的交易（多次买卖一支股票）。
         注意：你不能同时参与多笔交易（你必须在再次购买前出售掉之前的股票）。
+        把连续的买卖看作每天都判断买不买卖，如果第二天有效益，就买卖，否则不买
         :param prices:
         :return:
         """
-        pass
+        profit = 0
+        for i in range(1, len(prices)):
+            tmp = prices[i] - prices[i - 1]
+            if tmp > 0: profit += tmp
+        return profit
+
+    @classmethod
+    def two_sum_1(cls,numbers,target):
+        """
+        给定一个已按照升序排列 的有序数组，找到两个数使得它们相加之和等于目标数。
+        函数应该返回这两个下标值 index1 和 index2，其中 index1 必须小于 index2。
+        说明:
+            返回的下标值（index1 和 index2）不是从零开始的。
+            你可以假设每个输入只对应唯一的答案，而且你不可以重复使用相同的元素。
+        :param numbers:
+        :param target:
+        :return:
+        """
+        if len(numbers)==0 or target<numbers[0]:
+            return []
+        allnum = {}
+        for i in range(len(numbers)):
+            sub = target - numbers[i]
+            if not allnum.keys().__contains__(sub):
+                allnum[numbers[i]] = i+1
+            else:
+                return [allnum[sub],i+1]
+        return []
+
+    @classmethod
+    def two_sum_2(cls,numbers,target):
+        """
+        给定一个已按照升序排列 的有序数组，找到两个数使得它们相加之和等于目标数。
+        函数应该返回这两个下标值 index1 和 index2，其中 index1 必须小于 index2。
+        说明:
+            返回的下标值（index1 和 index2）不是从零开始的。
+            你可以假设每个输入只对应唯一的答案，而且你不可以重复使用相同的元素。
+        :param numbers:
+        :param target:
+        :return:
+        """
+        tail = len(numbers) - 1
+        head = 0
+        while tail > head:
+            sum = numbers[head] + numbers[tail]
+            if sum == target:
+                return [head+1,tail+1]
+            elif sum>target:
+                tail -= 1
+            else:
+                head += 1
+        return []
+
+    @classmethod
+    def majority_element(cls,nums):
+        """
+        给定一个大小为 n 的数组，找到其中的众数。众数是指在数组中出现次数大于 ⌊ n/2 ⌋ 的元素。
+        你可以假设数组是非空的，并且给定的数组总是存在众数
+        :param nums:
+        :return:
+        """
+        hl = len(nums) / 2
+        allnums = {}
+        if len(nums) == 1:
+            return nums[0]
+        for i in range(len(nums)):
+            if allnums.keys().__contains__(nums[i]):
+                if allnums[nums[i]]+1 >= hl:
+                    return nums[i]
+                else:
+                    allnums[nums[i]] += 1
+            else:
+                allnums[nums[i]] = 1
+
+    @classmethod
+    def rotate_1(cls, nums, k):
+        """
+        翻转字符串第K个字符
+        所以此题只需要采取三次翻转的方式就可以得到目标数组，首先翻转分界线前后数组，再整体翻转一次即可。
+        :param nums:
+        :param k:
+        :return:
+        """
+        for i in range(k):
+            p = nums[-1]
+            j = len(nums)-1
+            while j > 0:
+                nums[j] = nums[j-1]
+                j -= 1
+            nums[0] = p
+
+    @classmethod
+    def change(cls,nums,start,end):
+        while start < end:
+            tmp = nums[start]
+            nums[start] = nums[end]
+            nums[end] = tmp
+            start += 1
+            end -= 1
+
+    @classmethod
+    def rotate_2(cls, nums, k):
+        """
+        翻转字符串第K个字符
+        所以此题只需要采取三次翻转的方式就可以得到目标数组，首先翻转分界线前后数组，再整体翻转一次即可。
+        :param nums:
+        :param k:
+        :return:
+        """
+        l = len(nums) - 1
+        k %= l+1 # 此操作将省去多余循环的移动
+        cls.change(nums, 0, l-k)
+        cls.change(nums, l-k+1, l)
+        cls.change(nums, 0, l)
+
+    @classmethod
+    def contains_duplicate_1(cls,nums):
+        """
+        给定一个整数数组，判断是否存在重复元素。
+        如果任何值在数组中出现至少两次，函数返回 true
+        如果数组中每个元素都不相同，则返回 false
+        （1）排序法
+        （2）字典法
+        :param nums:
+        :return:
+        """
+        a = sorted(nums)
+        i = 0
+        while i < len(nums)-1:
+            if a[i] == a[i+1]:
+                return True
+            i += 1
+        return False
+
+    @classmethod
+    def contains_duplicate_2(cls, nums, k):
+        """
+        给定一个整数数组和一个整数k，判断数组中是否存在两个不同的索引i和j，
+        使得nums[i]=nums[j]，并且i和j的差的绝对值最大为k
+        (1)字典法
+        :param nums:
+        :return:
+        """
+        num_map = {}
+        i = 0
+        while i < len(nums):
+            if num_map.keys().__contains__(nums[i]):
+                if i - num_map[nums[i]] <= k:
+                    return True
+                else:
+                    num_map[nums[i]] = i
+            else:
+                num_map[nums[i]] = i
+            i += 1
+        return False
+
+    @classmethod
+    def shortest_distance(cls, words, word1, word2):
+        """
+        Given a list of words and two words word1 and word2, return the shortest distance between these two words in the list.
+        For example,
+        Assume that words = ["practice", "makes", "perfect", "coding", "makes"].
+        Given word1 = “coding”, word2 = “practice”, return 3.
+        Given word1 = "makes", word2 = "coding", return 1.
+        Note:
+        You may assume that word1 does not equal to word2, and word1 and word2 are both in the list.
+        :param words:
+        :param word1:
+        :param word2:
+        :return:
+        """
+        l = len(words)
+        import math
+        min_distance = math.inf
+        ix1 = -1
+        ix2 = -1
+        for i in range(l):
+            word = words[i]
+            if word == word1:
+                ix1 = i
+            if word == word2:
+                ix2 = i
+            if ix1 != -1 and ix2 != -1:
+                min_distance = min(min_distance, abs(ix2-ix1))
+        return min_distance
