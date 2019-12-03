@@ -3,7 +3,8 @@
 """
 @Name simple_array
 @Description
-    
+    数组
+        简单难度
 @Author LiHao
 @Date 2019/7/31
 """
@@ -416,3 +417,13 @@ class Solution(object):
             if ix1 != -1 and ix2 != -1:
                 min_distance = min(min_distance, abs(ix2-ix1))
         return min_distance
+
+    @classmethod
+    def missing_number(cls,nums):
+        """
+        给定一个包含 0, 1, 2, ..., n 中 n 个数的序列，找出 0 .. n 中没有出现在序列中的那个数。
+        你的算法应具有线性时间复杂度。你能否仅使用额外常数空间来实现
+        :param nums:
+        :return:
+        """
+
