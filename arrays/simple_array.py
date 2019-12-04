@@ -184,6 +184,24 @@ class Solution(object):
         return t
 
     @classmethod
+    def get_row(cls,rowIndex):
+        if rowIndex < 1:
+            return [1]
+        result = [0 for i in range(rowIndex+1)]
+        result[0] = 1
+        for i in range(1,rowIndex+1,1):
+            # 记录上一行前一个位置的数据值
+            tmp = result[0]
+            for j in range(i+1):
+                if j-1<0 or j>=rowIndex:
+                    result[j] = tmp
+                else:
+                    p = tmp + result[j]
+                    tmp = result[j]
+                    result[j] = p
+        return result[:rowIndex+1]
+
+    @classmethod
     def max_profit_1(cls,prices):
         """
         超出了运行时间
@@ -419,11 +437,62 @@ class Solution(object):
         return min_distance
 
     @classmethod
-    def missing_number(cls,nums):
+    def missing_number_1(cls,nums):
         """
         给定一个包含 0, 1, 2, ..., n 中 n 个数的序列，找出 0 .. n 中没有出现在序列中的那个数。
         你的算法应具有线性时间复杂度。你能否仅使用额外常数空间来实现
+        (1)排序 missing_number_1
+        (2)数学计算 missing_number_2
         :param nums:
         :return:
         """
+        l = len(nums)
+        # 先排序
+        nums = sorted(nums)
+        # 在线性比对
+        for i in range(l):
+            if i!= nums[i]:
+                return i
+        return l
 
+    @classmethod
+    def missing_number_2(cls,nums):
+        """
+        (2)数学计算
+        :param nums:
+        :return:
+        """
+        l = len(nums)
+        sum_all = sum([i for i in range(l+1)])
+        sum_sub = sum(nums)
+        return sum_all-sum_sub
+
+    @classmethod
+    def move_zeroes(cls,nums):
+        """
+        283.给定一个数组 nums，编写一个函数将所有 0 移动到数组的末尾，同时保持非零元素的相对顺序。
+        必须在原数组上操作，不能拷贝额外的数组。
+        尽量减少操作次数
+        将非零的数按序交换至j所在的位置，直到遍历完所有元素，那么0就会自动排入后面
+        :param nums:
+        :return:
+        """
+        j = -1
+        for i in range(len(nums)):
+            if nums[i] != 0:
+                j += 1
+                if i != j:
+                    tmp = nums[i]
+                    nums[i] = nums[j]
+                    nums[j] = tmp
+
+    @classmethod
+    def find_disappeared_numbers(cls,nums):
+        """
+        448. 找到所有数组中消失的数字
+        给定一个范围在  1 ≤ a[i] ≤ n ( n = 数组大小 ) 的 整型数组，数组中的元素一些出现了两次，另一些只出现一次。
+        找到所有在 [1, n] 范围之间没有出现在数组中的数字。
+        您能在不使用额外空间且时间复杂度为O(n)的情况下完成这个任务吗? 你可以假定返回的数组不算在额外空间内。
+        :param nums:
+        :return:
+        """
