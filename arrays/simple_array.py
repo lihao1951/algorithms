@@ -496,3 +496,15 @@ class Solution(object):
         :param nums:
         :return:
         """
+        for i in range(len(nums)):
+            k = (nums[i]-1) % len(nums)
+            nums[k] += len(nums)
+        print(nums)
+        r = []
+        for i in range(len(nums)):
+            if nums[i] <= len(nums):
+                r.append(i+1)
+        return r
+nums = [4,3,2,7,8,2,3,1]
+s = Solution.find_disappeared_numbers(nums)
+print(s)
