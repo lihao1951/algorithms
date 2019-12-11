@@ -499,12 +499,165 @@ class Solution(object):
         for i in range(len(nums)):
             k = (nums[i]-1) % len(nums)
             nums[k] += len(nums)
-        print(nums)
         r = []
         for i in range(len(nums)):
             if nums[i] <= len(nums):
                 r.append(i+1)
         return r
-nums = [4,3,2,7,8,2,3,1]
-s = Solution.find_disappeared_numbers(nums)
-print(s)
+
+
+    @classmethod
+    def find_max_consecutive_ones(cls, nums):
+        """
+        485.给定一个二进制数组， 计算其中最大连续1的个数
+        :param nums:
+        :return:
+        """
+        i = 0
+        count = 0
+        ones = 0
+        while i<len(nums):
+            if nums[i] == 1:
+                count += 1
+            else:
+                ones = max(ones,count)
+                count = 0
+            i += 1
+        return max(ones,count)
+
+    @classmethod
+    def fib(cls,N):
+        """
+        509.斐波那契数，通常用 F(n) 表示，形成的序列称为斐波那契数列。该数列由 0 和 1 开始，
+        后面的每一项数字都是前面两项数字的和。也就是：
+        F(0) = 0,   F(1) = 1
+        F(N) = F(N - 1) + F(N - 2), 其中 N > 1.
+        :param int:
+        :return:
+        """
+        if N < 2:
+            return N
+        return cls.fib(N-1) + cls.fib(N-2)
+
+    @classmethod
+    def find_pairs(cls,nums,k):
+        """
+        给定一个整数数组和一个整数 k, 你需要在数组里找到不同的 k-diff 数对。这里将 k-diff 数对定义为一个整数对 (i, j),
+        其中 i 和 j 都是数组中的数字，且两数之差的绝对值是 k.
+        注意:
+            数对 (i, j) 和数对 (j, i) 被算作同一数对。
+            数组的长度不超过10,000。
+            所有输入的整数的范围在 [-1e7, 1e7]。
+        :param nums:
+        :param k:
+        :return:
+        """
+        ...
+
+    @classmethod
+    def array_pair_sum(cls,nums):
+        """
+        561.给定长度为 2n 的数组, 你的任务是将这些数分成 n 对, 例如 (a1, b1), (a2, b2), ..., (an, bn) ，
+        使得从1 到 n 的 min(ai, bi) 总和最大。
+        :param nums:
+        :return:
+        """
+        nums = sorted(nums)
+        i = 0
+        sum = 0
+        for i in range(0,len(nums),2):
+            sum += nums[i]
+        return sum
+
+    @classmethod
+    def matrix_reshape(cls,nums,r,c):
+        """
+        重排矩阵，对矩阵reshape
+        :param nums:
+        :param r:
+        :param c:
+        :return:
+        """
+        rows = len(nums)
+        cols = len(nums[0])
+        if rows*cols != r*c:
+            return nums
+        new_nums = [[0 for _ in range(c)] for _ in range(r)]
+        for i in range(r*c):
+            new_nums[int(i / c)][i % c] = nums[int(i / cols)][i % cols]
+        return new_nums
+
+    @classmethod
+    def find_unsorted_subarray(cls,nums):
+        """
+        581.给定一个整数数组，你需要寻找一个连续的子数组，如果对这个子数组进行升序排序，那么整个数组都会变为升序排序。
+        你找到的子数组应是最短的，请输出它的长度。
+        :param nums:
+        :return:
+        """
+        sort_nums = sorted(nums)
+        i = 0
+        j = len(nums)-1
+        while i<len(nums):
+            if nums[i] == sort_nums[i]:
+                i += 1
+            else:
+                break
+        while j > -1:
+            if nums[j] == sort_nums[j]:
+                j -= 1
+            else:
+                break
+        if j < i: return 0
+        return j - i + 1
+
+    @classmethod
+    def can_place_flowers(cls,flowerbed,n):
+        """
+        605.假设你有一个很长的花坛，一部分地块种植了花，另一部分却没有。可是，花卉不能种植在相邻的地块上，它们会争夺水源，两者都会死去。
+        给定一个花坛（表示为一个数组包含0和1，其中0表示没种植花，1表示种植了花），和一个数 n 。
+        能否在不打破种植规则的情况下种入 n 朵花？能则返回True，不能则返回False。
+        注意:
+            数组内已种好的花不会违反种植规则。
+            输入的数组长度范围为 [1, 20000]。
+            n 是非负整数，且不会超过输入数组的大小。
+        :param flowerbed:
+        :param n:
+        :return:
+        """
+        tmp = [0]+flowerbed+[0]
+        for i in range(1, len(tmp)-1):
+            if tmp[i-1] == 0 and tmp[i] == 0 and tmp[i+1] == 0:
+                tmp[i] = 1  # 在 i 处栽上花
+                n -= 1
+        return n <= 0   # n 小于等于 0 ，表示可以栽完花
+
+    @classmethod
+    def maximum_product(cls,nums):
+        """
+        628.给定一个整型数组，在数组中找出由三个数组成的最大乘积，并输出这个乘积。
+        :param nums:
+        :return:
+        """
+        nums.sort()
+        return max(nums[0]*nums[1]*nums[-1],nums[-1]*nums[-2]*nums[-3])
+
+    @classmethod
+    def find_max_average(cls,nums,k):
+        """
+        643.给定 n 个整数，找出平均数最大且长度为 k 的连续子数组，并输出该最大平均数。
+        :param nums:
+        :param k:
+        :return:
+        """
+        sums = sum(nums[0:k])
+        tmp = sums
+        i=1
+        while i+k-1 < len(nums):
+            tmp = tmp + nums[i+k-1] - nums[i-1]
+            sums = max(sums,tmp)
+            i+=1
+        return sums/k
+
+nums = [9,7,3,5,6,2,0,8,1,9]
+print(Solution.find_max_average(nums,6))
