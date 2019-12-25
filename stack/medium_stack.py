@@ -43,18 +43,29 @@ class Solution:
 
     @classmethod
     def inorderTraversal(cls, root: TreeNode):
+        """
+        中序遍历-迭代
+        :param root:
+        :return:
+        """
         if root is None:
             return None
         result = []
         stack = []
-        stack.append(root)
-
-        while stack:
-            if stack[-1].left is not None:
-                result.append(stack[-1].left)
+        cur = root
+        while cur!=None or len(stack)>0:
+            if cur is not None:
+                stack.append(cur)
+                cur = cur.left
             else:
-                node = stack.pop()
-                result.append(node.val)
-                if node.right is not None:
-                    stack.append(node.right)
+                cur = stack.pop()
+                result.append(cur.val)
+                cur = cur.right
         return result
+
+a = TreeNode(1)
+b = TreeNode(2)
+c = TreeNode(3)
+a.right = b
+b.left = c
+print(Solution.inorderTraversal(a))
