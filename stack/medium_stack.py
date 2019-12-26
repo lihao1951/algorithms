@@ -53,7 +53,7 @@ class Solution:
         result = []
         stack = []
         cur = root
-        while cur!=None or len(stack)>0:
+        while cur != None or len(stack) > 0:
             if cur is not None:
                 stack.append(cur)
                 cur = cur.left
@@ -63,9 +63,82 @@ class Solution:
                 cur = cur.right
         return result
 
-a = TreeNode(1)
-b = TreeNode(2)
-c = TreeNode(3)
-a.right = b
-b.left = c
-print(Solution.inorderTraversal(a))
+    @classmethod
+    def zigzagLevelOrder(cls, root: TreeNode):
+        """
+        103. 二叉树的锯齿形层次遍历
+        锯齿形访问二叉树节点
+        交替使用两个栈解决问题
+        :param root:
+        :return:
+        """
+        left = True
+        stack_left = []
+        stack_right = []
+        result = []
+        if root is None:
+            return result
+        stack_left.append(root)
+        while len(stack_left) != 0 or len(stack_right) != 0:
+            line = []
+            while left and len(stack_left)!=0:
+                node = stack_left.pop()
+                line.append(node.val)
+                if node.left is not None:
+                    stack_right.append(node.left)
+                if node.right is not None:
+                    stack_right.append(node.right)
+
+            while not left and len(stack_right)!=0:
+                node = stack_right.pop()
+                line.append(node.val)
+                if node.right is not None:
+                    stack_left.append(node.right)
+                if node.left is not None:
+                    stack_left.append(node.left)
+            left = not left
+            result.append(line)
+        return result
+
+    @classmethod
+    def preorderTraversal(cls, root: TreeNode):
+        if root is None:
+            return None
+        result = []
+        stack = []
+        cur = root
+        while cur != None or len(stack)!=0:
+            if cur!= None:
+                stack.append(cur)
+                result.append(cur.val)
+                cur = cur.left
+            else:
+                cur = stack.pop()
+                cur = cur.right
+        return result
+
+    @classmethod
+    def evalRPN(cls,tokens):
+        """
+        150. 根据逆波兰表示法，求表达式的值。
+        :param tokens:
+        :return:
+        """
+        stack = []
+        for x in tokens:
+            if x in ['+','-','*','/']:
+                a = stack.pop()
+                b = stack.pop()
+                if x == '+':
+                    stack.append(a+b)
+                elif x == '-':
+                    stack.append(b-a)
+                elif x == '*':
+                    stack.append(a*b)
+                else:
+                    stack.append(int(b/a))
+            else:
+                stack.append(int(x))
+        return stack.pop()
+tokens = ["4", "13", "5", "/", "-"]
+print(Solution.evalRPN(tokens))
