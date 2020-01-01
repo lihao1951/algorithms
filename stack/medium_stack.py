@@ -140,5 +140,29 @@ class Solution:
             else:
                 stack.append(int(x))
         return stack.pop()
-tokens = ["4", "13", "5", "/", "-"]
-print(Solution.evalRPN(tokens))
+
+    @classmethod
+    def asteroidCollision(cls,asteroids):
+        """
+        给定一个整数数组 asteroids，表示在同一行的行星。
+        对于数组中的每一个元素，其绝对值表示行星的大小，正负表示行星的移动方向（正表示向右移动，负表示向左移动）。每一颗行星以相同的速度移动。
+        找出碰撞后剩下的所有行星。碰撞规则：两个行星相互碰撞，较小的行星会爆炸。如果两颗行星大小相同，则两颗行星都会爆炸。两颗移动方向相同的行星，永远不会发生碰撞。
+
+        :param asteroids:
+        :return:
+        """
+        ...
+
+    @classmethod
+    def dailyTemperatures(cls,T):
+        """
+        根据每日 气温 列表，请重新生成一个列表，对应位置的输入是你需要再等待多久温度才会升高超过该日的天数。
+        如果之后都不会升高，请在该位置用 0 来代替。
+        例如，给定一个列表 temperatures = [73, 74, 75, 71, 69, 72, 76, 73]，
+        你的输出应该是 [1, 1, 4, 2, 1, 1, 0, 0]。
+        提示：气温 列表长度的范围是 [1, 30000]。每个气温的值的均为华氏度，都是在 [30, 100] 范围内的整数
+        :param T:
+        :return:
+        """
+
+        ...
