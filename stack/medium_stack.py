@@ -81,7 +81,7 @@ class Solution:
         stack_left.append(root)
         while len(stack_left) != 0 or len(stack_right) != 0:
             line = []
-            while left and len(stack_left)!=0:
+            while left and len(stack_left) != 0:
                 node = stack_left.pop()
                 line.append(node.val)
                 if node.left is not None:
@@ -89,7 +89,7 @@ class Solution:
                 if node.right is not None:
                     stack_right.append(node.right)
 
-            while not left and len(stack_right)!=0:
+            while not left and len(stack_right) != 0:
                 node = stack_right.pop()
                 line.append(node.val)
                 if node.right is not None:
@@ -107,8 +107,8 @@ class Solution:
         result = []
         stack = []
         cur = root
-        while cur != None or len(stack)!=0:
-            if cur!= None:
+        while cur != None or len(stack) != 0:
+            if cur != None:
                 stack.append(cur)
                 result.append(cur.val)
                 cur = cur.left
@@ -118,7 +118,7 @@ class Solution:
         return result
 
     @classmethod
-    def evalRPN(cls,tokens):
+    def evalRPN(cls, tokens):
         """
         150. 根据逆波兰表示法，求表达式的值。
         :param tokens:
@@ -126,19 +126,74 @@ class Solution:
         """
         stack = []
         for x in tokens:
-            if x in ['+','-','*','/']:
+            if x in ['+', '-', '*', '/']:
                 a = stack.pop()
                 b = stack.pop()
                 if x == '+':
-                    stack.append(a+b)
+                    stack.append(a + b)
                 elif x == '-':
-                    stack.append(b-a)
+                    stack.append(b - a)
                 elif x == '*':
-                    stack.append(a*b)
+                    stack.append(a * b)
                 else:
-                    stack.append(int(b/a))
+                    stack.append(int(b / a))
             else:
                 stack.append(int(x))
         return stack.pop()
-tokens = ["4", "13", "5", "/", "-"]
-print(Solution.evalRPN(tokens))
+
+    @classmethod
+    def removeKdigits(cls, num: str, k: int):
+        """
+        402. 移掉K位数字
+        给定一个以字符串表示的非负整数 num，移除这个数中的 k 位数字，使得剩下的数字最小。
+        :param num:
+        :param k:
+        :return:
+        """
+        num_stack = []
+        for digit in num:
+            while k and num_stack and num_stack[-1] > digit:
+                num_stack.pop()
+                k -= 1
+                num_stack.append(digit)
+        final_stack = num_stack[:-k] if k else num_stack
+        return "".join(final_stack).lstrip('0') or "0"
+
+    @classmethod
+    def find132pattern(cls, nums):
+        """
+        456. 132模式
+        给定一个整数序列：a1, a2, ..., an，一个132模式的子序列 ai, aj, ak 被定义为：
+        当 i < j < k 时，ai < ak < aj。设计一个算法，当给定有 n 个数字的序列时，验证这个序列中是否含有132模式的子序列。
+        :param nums:
+        :return:
+        """
+        ...
+
+    @classmethod
+    def asteroidCollision(cls, asteroids):
+        """
+        行星碰撞
+        :param asteroids:
+        :return:
+        """
+        run_stack = []
+        result = []
+        for num in asteroids:
+            if num < 0 and not run_stack:
+                result.append(num)
+                continue
+            if num > 0:
+                run_stack.append(num)
+            else:
+                while run_stack and num < 0 and run_stack[-1] > 0:
+                    pnum = run_stack.pop()
+                    if num + pnum > 0:
+                        run_stack.append(pnum)
+                        num = pnum
+                    elif num + pnum == 0:
+                        num = 0
+                if num < 0:
+                    run_stack.append(num)
+        result.extend(run_stack)
+        return result
