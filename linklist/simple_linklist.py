@@ -159,3 +159,84 @@ class Solution:
             p = c
             c = tmp
         return p
+
+    @classmethod
+    def isPalindrome(cls, head: ListNode) -> bool:
+        """
+        234. 回文链表
+        请判断一个链表是否为回文链表。
+        :param head:
+        :return:
+        """
+
+        def reverse(head):
+            if head is None or head.next is None:
+                return head
+            c, p = head, None
+            while c:
+                tmp = c.next
+                c.next = p
+                p = c
+                c = tmp
+            return p
+
+        fast = head
+        slow = head
+        # 找到中点
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+        fast = reverse(slow)
+        slow = head
+        while fast and slow:
+            if slow.val != fast.val:
+                return False
+            slow = slow.next
+            fast = fast.next
+        return True
+
+    @classmethod
+    def deleteNode(cls, node):
+        """
+        237. 删除链表中的节点
+        请编写一个函数，使其可以删除某个链表中给定的（非末尾）节点，你将只被给定要求被删除的节点。
+        :param node:
+        :return:
+        """
+        if node.next:
+            rear = node.next.next
+            node.val = node.next.val
+            node.next = rear
+        else:
+            node = None
+
+    @classmethod
+    def middleNode(cls, head: ListNode) -> ListNode:
+        """
+        876. 查找中间节点
+        :param head:
+        :return:
+        """
+        fast = head
+        slow = head
+        while fast and fast.next:
+            fast = fast.next.next
+            slow = slow.next
+        return slow
+
+    @classmethod
+    def getDecimalValue(cls, head: ListNode) -> int:
+        """
+        1290. 二进制链表转整数
+        给你一个单链表的引用结点head。链表中每个结点的值不是 0 就是 1。已知此链表是一个整数数字的二进制表示形式。
+        请你返回该链表所表示数字的 十进制值 。
+        :param head:
+        :return:
+        """
+        # 和十进制的计算类似只不过每位都乘以2
+        cur = head
+        sum = 0
+        while cur:
+            sum = sum * 2 + cur.val
+            cur = cur.next
+        return sum
